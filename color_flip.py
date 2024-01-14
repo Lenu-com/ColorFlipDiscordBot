@@ -1,23 +1,24 @@
-from typing import Final
+import os
 import cv2
-from now import fetch_now
+from filepath import INPUT_PATH, OUTPUT_PATH
 
-INPUT_PATH: Final[str] = 'images/input/'
-OUTPUT_PATH: Final[str] = 'images/output/'
 
 class ColorFlip:
-    def __init__(self, img_path: str) -> None:
-        if img_path is None:
-            raise ValueError('img_path is None')
-        self.__img = cv2.imread(INPUT_PATH + img_path)
+    def __init__(self, img_name: str) -> None:
+        if img_name is None:
+            raise ValueError('img_name is None')
+        self.__img_name = img_name
+        self.__img = cv2.imread(INPUT_PATH+img_name)
         if self.__img is None:
-            raise ValueError('img_path is invalid')
+            raise ValueError('img_name is invalid')
         
         
     def flip(self) -> None:
         self.__img = cv2.bitwise_not(self.__img)
         
         
-    def write(self) -> None:
-        cv2.imwrite(f"{OUTPUT_PATH}{fetch_now()}.jpg", self.__img)
+    def write(self) -> str:
+        output_path = os.path.join(OUTPUT_PATH + self.__img_name)
+        cv2.imwrite(output_path, self.__img)
+        return output_path
         
