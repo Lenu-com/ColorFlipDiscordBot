@@ -1,4 +1,3 @@
-from typing import Final
 from datetime import datetime
 
 def fetch_now() -> str:
