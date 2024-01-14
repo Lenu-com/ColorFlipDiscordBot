@@ -5,10 +5,6 @@ from color_flip import ColorFlip
 from filepath import INPUT_PATH
 
 
-'''
-TODO: input, outputフォルダが膨らむ為、送信後に削除するようにする
-'''
-
 intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
@@ -32,9 +28,12 @@ async def on_message(message) -> None:
     for attachment in message.attachments:
         if is_image(attachment):
             input_file_name = f'{fetch_now()}.jpg'
-            await attachment.save(os.path.join(INPUT_PATH, input_file_name))
+            input_path = os.path.join(INPUT_PATH, input_file_name)
+            await attachment.save(input_path)
             output_path = ColorFlip.fetch_output_img(input_file_name)
             await message.channel.send(file=discord.File(output_path))
+            os.remove(input_path)
+            os.remove(output_path)
             
             
 client.run(os.environ['DISCORD_API_KEY'])
