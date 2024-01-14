@@ -22,6 +22,7 @@ class ColorFlip:
         cv2.imwrite(output_path, self.__img)
         return output_path
     
+    
     @staticmethod
     def fetch_output_img(input_path: str) -> str:
         cf = ColorFlip(input_path)
