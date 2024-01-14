@@ -18,12 +18,6 @@ def is_image(attachment: discord.Attachment) -> bool:
     return attachment.content_type.startswith('image')
 
 
-def fetch_output_img(input_path: str) -> str:
-    cf = ColorFlip(input_path)
-    cf.flip()
-    return cf.write()
-
-
 @client.event
 async def on_message(message) -> None:
     if message.author == client.user:
@@ -38,8 +32,8 @@ async def on_message(message) -> None:
     for attachment in message.attachments:
         if is_image(attachment):
             input_file_name = f'{fetch_now()}.jpg'
-            await attachment.save(INPUT_PATH + input_file_name)
-            output_path = fetch_output_img(input_file_name)
+            await attachment.save(os.path.join(INPUT_PATH, input_file_name))
+            output_path = ColorFlip.fetch_output_img(input_file_name)
             await message.channel.send(file=discord.File(output_path))
             
             
