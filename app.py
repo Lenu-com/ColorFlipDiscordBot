@@ -5,6 +5,10 @@ from color_flip import ColorFlip
 from filepath import INPUT_PATH
 
 
+'''
+TODO: input, outputフォルダが膨らむ為、送信後に削除するようにする
+'''
+
 intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
